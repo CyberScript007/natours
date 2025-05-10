@@ -111,7 +111,6 @@ exports.protectedRoute = catchAsync(async (req, res, next) => {
   }
 
   // check if user changed password after the token was issued
-
   if (currentUser.verifyUserPasswordDate(decoded.iat)) {
     return next(
       new AppError(

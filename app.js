@@ -34,11 +34,17 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 // secure http headers
 app.use(helmet());
 
+console.log(process.env.NODE_ENV);
+
 // enable content security policy to grant access to some url
 app.use((req, res, next) => {
   res.setHeader(
     'Content-Security-Policy',
-    "default-src 'self'; connect-src 'self' ws://127.0.0.1:53672 ws://127.0.0.1:58464 ws://127.0.0.1:52047; style-src-elem 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://a.tile-cyclosm.openstreetmap.fr;",
+    "default-src 'self'; " +
+      "connect-src 'self' http://localhost:4000 http://127.0.0.1:4000 ws://localhost:* ws://127.0.0.1:*; " +
+      "style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; " +
+      "font-src 'self' https://fonts.gstatic.com; " +
+      "img-src 'self' https://a.tile-cyclosm.openstreetmap.fr data:;",
   );
   next();
 });
@@ -69,8 +75,19 @@ app.use(
 // to access the form data
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
+// cors options
+const corsOption = {
+  origin: ['http://localhost:4000', 'http://127.0.0.1:4000'], // Allow both localhost and 127.0.0.1
+  credentials: true, // Allow cookies/session tokens
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Explicitly allow OPTIONS
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
 // initialize cors
-app.use(cors());
+app.use(cors(corsOption));
+
+// implementing cors for
+app.options('*', cors(corsOption));
 
 // to access the cookie
 app.use(cookieParser());
