@@ -77,7 +77,7 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // cors options
 const corsOption = {
-  origin: ['http://localhost:4000', 'http://127.0.0.1:4000'], // Allow both localhost and 127.0.0.1
+  origin: '*', // Allow both localhost and 127.0.0.1
   credentials: true, // Allow cookies/session tokens
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Explicitly allow OPTIONS
   allowedHeaders: ['Content-Type', 'Authorization'],
