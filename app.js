@@ -86,7 +86,7 @@ const corsOption = {
 // initialize cors
 app.use(cors(corsOption));
 
-// implementing cors for
+// implementing cors for prefilght phase, to make use to perform nonn simple request such PUT, PATCH AND DELETE request
 app.options('*', cors(corsOption));
 
 // to access the cookie
